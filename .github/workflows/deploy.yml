@@ -1,0 +1,45 @@
+name: Deploy Portfolio
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install & Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to VPS
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i --delete --exclude='.env' --exclude='node_modules' --exclude='.git'"
+          SOURCE: "./"
+          REMOTE_HOST: "laughtale.co.za"
+          REMOTE_USER: "laughtale"
+          REMOTE_PORT: "2222"
+          TARGET: "/var/www/portfolio"
+
+      - name: Restart App
+        uses: appleboy/ssh-action@master
+        with:
+          host: "laughtale.co.za"
+          username: "laughtale"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 2222
+          script: |
+            cd /var/www/portfolio
+            npm ci --production
+            pm2 delete portfolio || true
+            pm2 start npm --name "portfolio" -- start
