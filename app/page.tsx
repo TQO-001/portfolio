@@ -1,65 +1,79 @@
-import Image from "next/image";
+import { Terminal, Award, Globe, Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen p-8 md:p-24 max-w-4xl mx-auto">
+      {/* Header Section */}
+      <header className="mb-16">
+        <div className="flex items-center gap-2 text-blue-500 mb-4 animate-pulse">
+          <Terminal size={18} />
+          <span className="text-xs font-bold uppercase tracking-widest">System Active</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tighter">
+          Thulani Langa
+        </h1>
+        <p className="text-zinc-400 text-lg md:text-xl max-w-2xl leading-relaxed">
+          IT Engineer & Software Developer. Specialized in <span className="text-white">Systems Support</span> and <span className="text-white">Azure Cloud Infrastructure</span>.
+        </p>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        {/* Left Column: Certs & Education */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="text-blue-500 text-sm font-bold uppercase mb-4 flex items-center gap-2">
+              <Award size={16} /> Certifications
+            </h2>
+            <ul className="space-y-3">
+              <li className="group">
+                <span className="block text-white">Azure Fundamentals (AZ-900)</span>
+                <span className="text-xs text-zinc-500">Microsoft Certified</span>
+              </li>
+              <li className="group">
+                <span className="block text-white">M365 Fundamentals (MS-900)</span>
+                <span className="text-xs text-zinc-500">Microsoft Certified</span>
+              </li>
+              <li className="text-zinc-600 italic">
+                Currently Pursuing: CompTIA Network+
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-blue-500 text-sm font-bold uppercase mb-4">Education</h2>
+            <p className="text-white">iStudent Academy</p>
+            <p className="text-xs text-zinc-500">IT Engineering: Software & Networking</p>
+          </div>
+        </section>
+
+        {/* Right Column: Projects & Socials */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="text-blue-500 text-sm font-bold uppercase mb-4 flex items-center gap-2">
+              <Globe size={16} /> Recent Work
+            </h2>
+            <div className="border border-zinc-800 p-4 rounded-md bg-zinc-900/30">
+              <h3 className="text-white font-medium flex items-center gap-2">
+                iGwebu Homecare <ExternalLink size={12} className="text-zinc-500" />
+              </h3>
+              <p className="text-sm text-zinc-400 mt-1">Full-scale web presence & Tier 1 Support.</p>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-blue-500 text-sm font-bold uppercase mb-4">Connect</h2>
+            <div className="flex gap-4">
+              <a href="https://github.com/TQO-001" className="text-zinc-400 hover:text-white transition-colors"><Github size={20} /></a>
+              <a href="https://linkedin.com/in/thulani-langa-09797431b" className="text-zinc-400 hover:text-white transition-colors"><Linkedin size={20} /></a>
+              <a href="mailto:thulanilanga001@gmail.com" className="text-zinc-400 hover:text-white transition-colors"><Mail size={20} /></a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer className="mt-24 pt-8 border-t border-zinc-900 text-[10px] text-zinc-600 uppercase tracking-[0.2em]">
+        Status: Online // Hosted: Ubuntu VPS // Port: 10001
+      </footer>
     </div>
   );
 }
