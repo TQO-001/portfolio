@@ -1,29 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --cherry: #D21F3C;
-  --teal: #2DD4BF;
+  --accent-blue: #3b82f6; /* Your original blue */
 }
 
 body {
-  background: radial-gradient(circle at top left, #1a0505, #050505 40%),
-              radial-gradient(circle at bottom right, #051a1a, #050505 40%);
-  min-height: 100vh;
+  background-color: #050505;
+  color: #a1a1aa; /* Zinc-400 */
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+/* Keep a very subtle "Technical" border instead of thick glass */
+.tech-card {
+  background: rgba(18, 18, 18, 0.5);
+  border: 1px solid #27272a; /* Zinc-800 */
+  transition: all 0.3s ease;
 }
 
-.cherry-glow:hover {
-  box-shadow: 0 0 20px rgba(210, 31, 60, 0.3);
-  border-color: var(--cherry);
+.tech-card:hover {
+  border-color: var(--accent-blue);
+  background: rgba(18, 18, 18, 0.8);
 }
 
-.teal-glow:hover {
-  box-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
-  border-color: var(--teal);
+/* Restore the grid pattern */
+.bg-grid {
+  background-image: 
+    linear-gradient(to right, #80808012 1px, transparent 1px),
+    linear-gradient(to bottom, #80808012 1px, transparent 1px);
+  background-size: 24px 24px;
 }

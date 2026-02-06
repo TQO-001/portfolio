@@ -1,117 +1,227 @@
-import { Terminal, Award, Globe, Mail, Github, Linkedin, Cpu, Code2, Shield, Database } from 'lucide-react';
+"use client";
+
+import { motion } from "framer-motion";
+import {
+  SiNextdotjs,
+  SiTailwindcss,
+  SiLinux,
+  SiTypescript,
+  SiNginx,
+  SiPrisma,
+  SiJavascript,
+  SiPython,
+  SiDotnet,
+  SiCplusplus,
+  SiHtml5,
+  SiCss3,
+  SiSqlite,
+  SiOpenjdk,
+  SiReact,
+  SiNodedotjs,
+  SiExpress
+} from "react-icons/si";
+
+import {
+  Mail,
+  Github,
+  Linkedin,
+  ExternalLink,
+  Code2,
+  Terminal,
+  Award,
+  Cpu
+} from "lucide-react";
+
+import dynamic from "next/dynamic";
+
+// Dynamic imports (client-only effects)
+const SplashCursor = dynamic(() => import("@/components/SplashCursor"), { ssr: false });
+const TrueFocus = dynamic(() => import("@/components/TrueFocus"), { ssr: false });
 
 export default function Home() {
+  const techStack = [
+    { name: "JavaScript", icon: <SiJavascript /> },
+    { name: "Python", icon: <SiPython /> },
+    { name: "C#", icon: <SiDotnet /> },
+    { name: "C++", icon: <SiCplusplus /> },
+    { name: "Java", icon: <SiOpenjdk /> },
+    { name: "TypeScript", icon: <SiTypescript /> },
+    { name: "HTML5", icon: <SiHtml5 /> },
+    { name: "CSS3", icon: <SiCss3 /> },
+    { name: "React.js", icon: <SiReact /> },
+    { name: "Next.js", icon: <SiNextdotjs /> },
+    { name: "Tailwind", icon: <SiTailwindcss /> },
+    { name: "Node.js", icon: <SiNodedotjs /> },
+    { name: "Express", icon: <SiExpress /> },
+    { name: ".NET", icon: <SiDotnet /> },
+    { name: "Prisma", icon: <SiPrisma /> },
+    { name: "SQLite3", icon: <SiSqlite /> },
+    { name: "Linux", icon: <SiLinux /> },
+    { name: "Nginx", icon: <SiNginx /> }
+  ];
+
+  // DATA MAPPING: Add new projects here
+  const projects = [
+    {
+      title: "iGwebu Homecare",
+      description: "Tier 1 Support & full-scale web deployment for healthcare providers.",
+      link: "https://portfolio.laughtale.co.za/projects/igwebu",
+      tags: ["REACT", "SUPPORT"],
+    },
+    {
+      title: "Laughtale Log",
+      description: "Full-stack task management ecosystem built with Next.js and Prisma.",
+      link: "https://log.laughtale.co.za",
+      tags: ["NEXT.JS", "DATABASE"],
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-[#050505] text-zinc-400 font-mono p-4 md:p-12">
-      {/* Background Decor */}
-      <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      
-      <main className="relative max-w-5xl mx-auto">
-        {/* Top Bar */}
-        <div className="flex justify-between items-center mb-12 border-2-b border-2-zinc-800 pb-4">
+    <div className="min-h-screen bg-[#050505] font-mono selection:bg-blue-500/30 overflow-x-hidden">
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
+      <SplashCursor />
+
+      <main className="relative z-10 p-6 md:p-24 max-w-6xl mx-auto space-y-16">
+        {/* Top bar */}
+        <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
           <div className="flex items-center gap-2 text-blue-500">
             <Terminal size={18} />
-            <span className="text-xs font-bold tracking-[0.3em] uppercase">Thulani_Langa_</span>
+            <span className="text-xs font-bold tracking-[0.3em] uppercase decoration-2">Thulani_Langa_</span>
           </div>
-          <div className="hidden md:block text-[10px] text-zinc-600">
-            LOC: KZN_SOUTH_AFRICA // GITHUB: TQO-001 // ALIAS: THE QUIET ONE
+          <div className="flex gap-6 text-zinc-200 text-[10px] font-bold uppercase">
+            <a href="https://github.com/TQO-001" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GITHUB</a>
+            <a href="mailto:thulanilanga001@gmail.com" className="hover:text-white transition-colors">EMAIL</a>
+            <a href="https://linkedin.com/in/thulani-langa-09797431b" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LINKEDIN</a>
           </div>
         </div>
 
-        {/* Hero Section */}
-        <section className="mb-20">
-          <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-6">
-            IT <span className="text-blue-600">ENGINEER</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-zinc-500 max-w-3xl leading-tight">
-            Building robust <span className="text-zinc-200">digital infrastructure</span> and 
-            <span className="text-zinc-200"> full-stack applications</span>. Currently architecting 
-            at iStudent Academy.
-          </p>
+        {/* Hero */}
+        <section>
+          <div className="mb-6">
+            <TrueFocus sentence="Thulani Langa" focusedClassName="text-white" unfocusedClassName="text-zinc-800" glowColor="rgba(59, 130, 246, 0.2)" />
+          </div>
+          <section className="flex flex-col md:flex-row gap-8 items-start">
+            {/* Profile Picture Container */}
+            <div className="relative shrink-0">
+              <div className="absolute -inset-1 bg-blue-600/20 blur-sm rounded-full" />
+              <img 
+                src="img/pfp.jpeg" // Replace with your actual image path (e.g., /me.png)
+                alt="Thulani Langa"
+                className="relative w-26 h-26 md:w-32 md:h-32 rounded-sm border border-zinc-800 object-cover grayscale hover:grayscale-0 transition-all duration-500"
+              />
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-blue-500 border-2 border-[#050505]" title="System Active" />
+            </div>
+
+            {/* Text Content */}
+            <div>
+              <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-6 flex items-center gap-3">
+                <Cpu className="text-blue-600" size={32} />
+                IT <span className="text-blue-600">ENGINEER</span>
+              </h1>
+              <p className="text-zinc-300 max-w-2xl leading-relaxed text-sm md:text-base">
+                IT Engineer specializing in systems deployment, full-stack development, and infrastructure optimization. 
+                Currently based in <span className="text-zinc-300">KZN, South Africa</span>.
+              </p>
+            </div>
+          </section>
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Tech Stack - The "Umphf" Section */}
-          <div className="md:col-span-2 bg-zinc-900/30 border-2 border-2-zinc-800 p-6 rounded-xl backdrop-blur-sm">
-            <h2 className="text-white font-bold mb-6 flex items-center gap-2">
-              <Code2 size={18} className="text-blue-500" /> Technologies & Core Stack
+        {/* Tech stack */}
+        <section className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="lg:col-span-3 tech-card p-8 rounded-sm bg-zinc-900/20 border border-zinc-800 hover:border-blue-500/50 transition-all">
+            <h2 className="text-blue-500 text-xs font-bold tracking-widest uppercase mb-10 flex items-center gap-2">
+              <Code2 size={14} /> TECHNICAL_RESOURCES.sys
             </h2>
-            <div className="flex flex-wrap gap-3">
-              {['Next.js 15', 'React', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'SQLite', 'Node.js', 'Python', 'Git'].map((tech) => (
-                <span key={tech} className="px-5 py-5 bg-zinc-800 text-zinc-300 text-xs rounded-xl border-2 border-2-zinc-700 hover:border-2-blue-500 transition-colors">
-                  {tech}
-                </span>
-              ))}
-            </div>
-            
-            <h2 className="text-white font-bold mt-10 mb-6 flex items-center gap-2">
-              <Shield size={18} className="text-blue-500" /> Systems & Infrastructure
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              {['Azure Cloud', 'Linux/Ubuntu', 'Active Directory', 'Nginx', 'Docker', 'Cisco Networking', 'Windows Server'].map((sys) => (
-                <span key={sys} className="px-5 py-5 bg-blue-500/10 text-blue-400 text-xs rounded-xl border-2 border-2-blue-500/20">
-                  {sys}
-                </span>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-y-12 gap-x-4">
+              {techStack.map((tech) => (
+                <div key={tech.name} className="flex flex-col items-center gap-3 group">
+                  <span className="text-3xl text-zinc-200 group-hover:text-blue-500 transition-colors duration-300">
+                    {tech.icon}
+                  </span>
+                  <span className="text-[12px] font-bold tracking-widest uppercase text-zinc-300 group-hover:text-zinc-400 text-center">
+                    {tech.name}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Socials & Connect */}
-          <div className="bg-blue-600 p-6 rounded-xl flex flex-col justify-between text-white">
-            <div>
-              <h2 className="text-2xl font-bold leading-none mb-2 text-black">LET'S CONNECT</h2>
-              <p className="text-blue-100 text-sm">Available for Tier 3 Support & Dev projects.</p>
+          {/* Sidebar */}
+          <div className="space-y-4 lg:col-span-1">
+            <div className="tech-card p-8 bg-zinc-900/20 border border-zinc-800 border-l-blue-500 border-l-2">
+              <span className="text-[10px] text-zinc-200 font-bold uppercase mb-2 block underline">System_Status</span>
+              <p className="text-white font-bold tracking-tighter text-lg">CompTIA Network+</p>
+              <p className="text-blue-500 text-[10px] mt-1 font-bold">IN_PROGRESS_2026</p>
             </div>
-            <div className="space-y-4 mt-8">
-              <a href="mailto:thulanilanga001@gmail.com" className="flex items-center justify-between group">
-                <span className="font-bold">EMAIL</span>
-                <Mail className="group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="https://linkedin.com/in/thulani-langa-09797431b" className="flex items-center justify-between group">
-                <span className="font-bold">LINKEDIN</span>
-                <Linkedin className="group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="https://github.com/TQO-001" className="flex items-center justify-between group">
-                <span className="font-bold">GITHUB</span>
-                <Github className="group-hover:translate-x-1 transition-transform" />
-              </a>
+            <div className="tech-card p-8 bg-zinc-900/20 border border-zinc-800">
+              <span className="text-[10px] text-zinc-200 font-bold uppercase mb-2 block underline">Primary_Role</span>
+              <p className="text-white font-bold tracking-tighter text-lg">Full-Stack Dev</p>
+              <p className="text-zinc-300 text-[10px] mt-1 font-bold">REACT / NODE / .NET</p>
             </div>
           </div>
+        </section>
 
-          {/* Experience/Project Card */}
-          <div className="bg-zinc-900/30 border-2 border-2-zinc-800 p-6 rounded-xl">
-            <h2 className="text-white font-bold mb-4 flex items-center gap-2">
-              <Globe size={18} className="text-blue-500" /> Featured Work
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <p className="text-white text-sm font-bold underline">iGwebu Homecare</p>
-                <p className="text-xs text-zinc-500 mt-1 italic italic">Web Presence & Hosting Optimization</p>
-              </div>
-              <div className="pt-4 border-2-t border-2-zinc-800">
-                <p className="text-white text-sm font-bold underline">Laughtale Log</p>
-                <p className="text-xs text-zinc-500 mt-1 italic">Full-stack Task Ecosystem (In Dev)</p>
-              </div>
-            </div>
+        {/* Mapped Projects Section */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-4">
+            <h2 className="text-zinc-200 text-xs font-bold tracking-widest uppercase">Active_Deployments</h2>
+            <div className="h-[1px] flex-1 bg-zinc-800" />
           </div>
 
-          {/* Certifications */}
-          <div className="md:col-span-2 bg-zinc-900/30 border-2 border-2-zinc-800 p-6 rounded-xl flex flex-col md:flex-row gap-8">
-            <div className="flex-1">
-              <h2 className="text-white font-bold mb-4 flex items-center gap-2">
-                <Award size={18} className="text-blue-500" /> Certifications
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-3 bg-zinc-800/50 rounded border-2 border-2-zinc-700">AZ-900: Azure Fundamentals</div>
-                <div className="p-3 bg-zinc-800/50 rounded border-2 border-2-zinc-700">MS-900: M365 Fundamentals</div>
-                <div className="p-3 bg-zinc-800/50 rounded border-2 border-2-zinc-700">MD-100: Windows Client</div>
-                <div className="p-3 bg-blue-500/10 rounded border-2 border-2-blue-500/30 text-blue-400 font-bold tracking-tighter uppercase">CompTIA Network+ (In Progress)</div>
-              </div>
-            </div>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {projects.map((project, index) => (
+              <a
+                key={index}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tech-card p-6 bg-zinc-900/10 border border-zinc-800 hover:bg-zinc-900/40 group transition-all block"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-white font-bold group-hover:text-blue-500 transition-colors">
+                    {project.title}
+                  </h3>
+                  <ExternalLink size={14} className="text-zinc-700 group-hover:text-blue-500" />
+                </div>
 
-        </div>
+                {/* Dynamic Placeholder Image */}
+                <div className="mb-4 h-36 w-full border border-zinc-800 bg-zinc-900/40 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[linear-gradient(135deg,#ffffff08_25%,transparent_25%,transparent_50%,#ffffff08_50%,#ffffff08_75%,transparent_75%,transparent)] bg-[size:16px_16px]" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] text-blue-500 font-bold tracking-widest uppercase">View_Deployment</span>
+                  </div>
+                </div>
+
+                <p className="text-xs text-zinc-300 mb-4 h-8 line-clamp-2">
+                  {project.description}
+                </p>
+
+                <div className="flex gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="text-[8px] px-2 py-1 bg-zinc-800 text-zinc-400 font-bold border border-zinc-700/50">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Certifications */}
+        <section className="pt-8 border-t border-zinc-900">
+          <h2 className="text-white font-bold mb-6 flex items-center gap-2 text-sm">
+            <Award size={16} className="text-blue-500" /> OFFICIAL_CREDENTIALS
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {["AZ-900", "MS-900", "MD-100"].map((cert) => (
+              <div key={cert} className="p-4 bg-zinc-900/30 border border-zinc-800 text-[10px] text-zinc-300 font-bold tracking-tighter hover:text-white transition-colors">
+                {cert} CERTIFIED
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   );
