@@ -4,6 +4,7 @@ import { motion, Variants } from "framer-motion";
 import { ExternalLink, Github, Terminal, Globe } from "lucide-react";
 import dynamic from "next/dynamic";
 
+const SplashCursor = dynamic(() => import("@/components/SplashCursor"), { ssr: false });
 const Header = dynamic(() => import("@/components/Header"), { ssr: false });
 const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
@@ -103,6 +104,7 @@ export default function Projects() {
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
       <Header page="PROJECTS" />
+      <SplashCursor />
 
       <main className="relative z-10 p-6 md:p-24 max-w-6xl mx-auto space-y-16 overflow-x-hidden">
         {/* Header block */}
