@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Code2, ExternalLink, Github, Terminal, Globe } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { ExternalLink, Github, Terminal, Globe } from "lucide-react";
 import dynamic from "next/dynamic";
 
 const Header = dynamic(() => import("@/components/Header"), { ssr: false });
@@ -78,13 +78,18 @@ const statusConfig = {
   },
 };
 
-const container = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
 };
 
-const item = {
-  hidden: { opacity: 0, y: 16 },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 },
 };
 
@@ -119,24 +124,18 @@ export default function Projects() {
         <ProjectGroup
           label="Active_Deployments"
           projects={live}
-          container={container}
-          item={item}
         />
 
         {/* WIP */}
         <ProjectGroup
           label="Work_In_Progress"
           projects={building}
-          container={container}
-          item={item}
         />
 
         {/* Archived */}
         <ProjectGroup
           label="Archived"
           projects={archived}
-          container={container}
-          item={item}
         />
       </main>
 
@@ -148,13 +147,9 @@ export default function Projects() {
 function ProjectGroup({
   label,
   projects,
-  container,
-  item,
 }: {
   label: string;
   projects: Project[];
-  container: object;
-  item: object;
 }) {
   if (projects.length === 0) return null;
 
@@ -169,7 +164,7 @@ function ProjectGroup({
       </div>
 
       <motion.div
-        variants={container}
+        variants={containerVariants}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
@@ -180,7 +175,7 @@ function ProjectGroup({
           return (
             <motion.div
               key={project.title}
-              variants={item}
+              variants={itemVariants}
               className="p-6 bg-zinc-900/10 border border-zinc-800 hover:bg-zinc-900/40 hover:border-orange-500/30 transition-all group flex flex-col"
             >
               {/* Title row */}
