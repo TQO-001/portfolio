@@ -8,6 +8,9 @@ import { User, Terminal, Code2 } from "lucide-react";
 export default function About() {
   return (
     <main className="min-h-screen bg-black text-zinc-400 selection:bg-blue-500/30">
+      {/* Grid background */}
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
       <Header page="ABOUT" />
       
       <div className="mx-auto max-w-6xl px-6 md:px-12 py-20">

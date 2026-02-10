@@ -6,9 +6,9 @@ export default function Footer({ page }: { page: string }) {
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
         
         {/* System ID */}
-        <div className="flex items-center gap-2 text-blue-500">
+        <div className="flex items-center gap-2 text-orange-500">
           <Terminal size={16} />
-          <span className="text-[16px] font-bold tracking-[0.3em] uppercase">
+          <span className="text-[11px] font-bold tracking-[0.3em] uppercase">
             { page }@Thulani_Langa_:~$
 
           </span>
