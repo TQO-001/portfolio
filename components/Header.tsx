@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { Terminal } from "lucide-react";
 
 const navItems = [
-  { label: "HOME", href: "#" },
-  { label: "ABOUT", href: "#about" },
-  { label: "PROJECTS", href: "#projects" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "HOME", href: "/" },
+  { label: "ABOUT", href: "/about" },
+  { label: "PROJECTS", href: "/projects" },
+  { label: "CONTACT", href: "/#contact" }, // Keeps it as an anchor link on the home page
 ];
 
 export default function Header({ page }: { page: string }) {
