@@ -7,7 +7,7 @@ const navItems = [
   { label: "HOME", href: "/" },
   { label: "ABOUT", href: "/about" },
   { label: "PROJECTS", href: "/projects" },
-  { label: "CONTACT", href: "/#contact" }, // Keeps it as an anchor link on the home page
+  { label: "CONTACT", href: "/contact" },
 ];
 
 export default function Header({ page }: { page: string }) {
