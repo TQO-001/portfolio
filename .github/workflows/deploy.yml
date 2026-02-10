@@ -1,4 +1,5 @@
 name: Deploy Portfolio
+
 on:
   push:
     branches: [main]
@@ -19,11 +20,15 @@ jobs:
         run: |
           npm ci
           npm run build
+        env:
+          # Pulls from GitHub Secrets
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
       - name: Deploy to VPS
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Note: We still exclude .env from rsync so we don't overwrite server secrets with empty local ones
           ARGS: "-rlgoDzvc -i --delete --exclude='.env' --exclude='node_modules' --exclude='.git'"
           SOURCE: "./"
           REMOTE_HOST: "laughtale.co.za"
@@ -31,7 +36,7 @@ jobs:
           REMOTE_PORT: "2222"
           TARGET: "/var/www/portfolio"
 
-      - name: Restart App
+      - name: Inject Environment Variables & Restart
         uses: appleboy/ssh-action@master
         with:
           host: "laughtale.co.za"
@@ -40,6 +45,14 @@ jobs:
           port: 2222
           script: |
             cd /var/www/portfolio
+            
+            # Create/Update the .env file on the VPS with your secret
+            echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" > .env
+            
+            # Install production dependencies only
             npm ci --production
+            
+            # Restart the process
             pm2 delete portfolio || true
             pm2 start npm --name "portfolio" -- start
+            pm2 save
