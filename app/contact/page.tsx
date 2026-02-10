@@ -61,7 +61,37 @@ export default function Contact() {
       setErrorMsg("network error. check connection and retry.");
       setStatus("error");
     }
-  };
+    
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      
+      // Basic validation
+      if (!form.name || !form.email || !form.message) {
+        setErrorMsg("Name, email, and message are required.");
+        setStatus("error");
+        return;
+      }
+
+      setStatus("loading");
+
+      try {
+        const response = await fetch("/api/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+
+        if (response.ok) {
+          setStatus("success");
+          setForm({ name: "", email: "", subject: "", message: "" }); // Clear form
+        } else {
+          throw new Error("Failed to send");
+        }
+      } catch (err) {
+        setStatus("error");
+        setErrorMsg("Could not connect to the mail server.");
+      }
+    };
 
   return (
     <div className="min-h-screen bg-[#050505] font-mono selection:bg-orange-500/30 relative">
