@@ -1,36 +1,171 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Thulani Langa — Portfolio
 
-## Getting Started
+> IT Engineer | Full-Stack Developer | Network Technician  
+> KwaZulu-Natal, South Africa · [laughtale.co.za](https://laughtale.co.za)
 
-First, run the development server:
+---
+
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| ORM | Prisma |
+| Database | SQLite |
+| Fonts | Outfit (Google Fonts) |
+| Icons | Lucide React + React Icons |
+| Email | Nodemailer (SMTP) |
+| Server | VPS · Nginx · PM2 |
+
+---
+
+## Pages
+
+- **/** — Home: hero, tech stack, active deployments, certifications
+- **/about** — Bio, timeline, blog link (coming soon), interests
+- **/projects** — Full project directory with live/WIP/archived status
+- **/contact** — Functional contact form (emails via SMTP) + CV download
+
+---
+
+## Local Dev
 
 ```bash
+# Install dependencies
+npm install
+
+# Start dev server (port 10001)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:10001](http://localhost:10001)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contact Form Setup
 
-## Learn More
+The contact form uses Nodemailer to send emails via SMTP. You need to configure environment variables.
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Install nodemailer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install nodemailer
+npm install -D @types/nodemailer
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Create `.env.local`
 
-## Deploy on Vercel
+```env
+# SMTP Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Where contact form emails get delivered
+CONTACT_TO=thulanilanga001@gmail.com
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Gmail Setup (recommended for free tier)
+
+1. Go to Google Account → Security → 2-Step Verification (enable it)
+2. Search "App passwords" → Create one for "Mail"
+3. Use that 16-character password as `SMTP_PASS`
+4. Set `SMTP_USER` to your Gmail address
+
+> **Note:** `.env.local` is gitignored. Never commit credentials.
+
+### Production (VPS)
+
+Set environment variables in your server's environment or in the PM2 ecosystem file:
+
+```bash
+# On your VPS
+export SMTP_HOST=smtp.gmail.com
+export SMTP_PORT=587
+export SMTP_SECURE=false
+export SMTP_USER=your-email@gmail.com
+export SMTP_PASS=your-app-password
+export CONTACT_TO=thulanilanga001@gmail.com
+```
+
+Or in `ecosystem.config.js` (PM2):
+
+```js
+module.exports = {
+  apps: [{
+    name: 'portfolio',
+    script: 'npm',
+    args: 'start',
+    env: {
+      SMTP_HOST: 'smtp.gmail.com',
+      SMTP_PORT: '587',
+      SMTP_USER: 'your-email@gmail.com',
+      SMTP_PASS: 'your-app-password',
+      CONTACT_TO: 'thulanilanga001@gmail.com',
+    }
+  }]
+}
+```
+
+---
+
+## CV File
+
+Place your CV at `public/my-cv.pdf`. The contact page has a download button pointing to this file.
+
+---
+
+## Deployment
+
+The project deploys automatically to the VPS via GitHub Actions on push to `main`.
+
+```
+push to main → GitHub Actions → build → rsync to VPS → pm2 restart
+```
+
+Required GitHub Secrets:
+- `SSH_PRIVATE_KEY` — private key for `laughtale@laughtale.co.za` on port 2222
+
+---
+
+## Project Structure
+
+```
+portfolio/
+├── app/
+│   ├── page.tsx              # Home
+│   ├── about/page.tsx        # About
+│   ├── projects/page.tsx     # Projects
+│   ├── contact/page.tsx      # Contact
+│   ├── api/
+│   │   └── contact/route.ts  # Contact form API
+│   ├── globals.css
+│   └── layout.tsx
+├── components/
+│   ├── Header.tsx
+│   ├── Footer.tsx
+│   ├── SplashCursor.tsx      # WebGL fluid cursor effect
+│   ├── TrueFocus.tsx         # Animated heading component
+│   └── ElectricBorder.tsx    # Animated canvas border
+└── public/
+    ├── img/pfp.jpeg
+    └── my-cv.pdf             # ← add your CV here
+```
+
+---
+
+## Certifications
+
+- AZ-900: Microsoft Azure Fundamentals ✅
+- MS-900: Microsoft 365 Fundamentals ✅  
+- MD-100: Windows Client ✅
+- CompTIA Network+: 🔄 In Progress (2026)
+
+---
+
+*"We did not learn this in school."*

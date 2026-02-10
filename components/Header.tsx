@@ -16,10 +16,11 @@ export default function Header({ page }: { page: string }) {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="sticky top-0 z-50 backdrop-blur-md"
+      // Added bg-black/50 to make the backdrop-blur pop more when scrolling
+      className="sticky top-0 z-50 w-full border-b border-zinc-800/50 bg-black/50 backdrop-blur-md"
     >
       <div className="mx-auto max-w-6xl px-6 md:px-12">
-        <div className="flex items-center justify-between border-b border-zinc-800 py-4">
+        <div className="flex items-center justify-between py-4">
           
           {/* Logo / System ID */}
           <div className="flex items-center gap-2 text-orange-500">

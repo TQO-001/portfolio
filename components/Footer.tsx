@@ -2,7 +2,7 @@ import { Terminal } from "lucide-react";
 
 export default function Footer({ page }: { page: string }) {
   return (
-    <footer className="mt-24 border-t border-zinc-800 pt-6 pb-10">
+    <footer className="relative z-10 p-6 md:p-24 max-w-6xl mx-auto border-t border-zinc-800 pt-2 pb-7">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
         
         {/* System ID */}
