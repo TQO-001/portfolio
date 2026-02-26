@@ -28,14 +28,14 @@ jobs:
       - name: 🚚 Sync Files to VPS
         uses: easingthemes/ssh-deploy@main
         with:
-          # These MUST be uppercase for this specific action
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: "laughtale.co.za"
           REMOTE_USER: "laughtale"
           REMOTE_PORT: ${{ secrets.PORT }}
           TARGET: "/var/www/portfolio"
           SOURCE: "./"
-          ARGS: "-rlgoDzvc -i --delete --exclude='.git' --exclude='node_modules' --exclude='src'"
+          # -e 'ssh -p ...' forces rsync to use your custom SSH port 2222
+          ARGS: "-rlgoDzvc -i --delete -e 'ssh -p ${{ secrets.PORT }}' --exclude='.git' --exclude='node_modules' --exclude='src'"
 
       - name: 🚀 Production Launch & Restart
         uses: appleboy/ssh-action@v1.2.0
@@ -47,16 +47,17 @@ jobs:
           script: |
             cd /var/www/portfolio
             
-            # Use APP_PORT for the .env
+            # Use APP_PORT (3002) for the .env
             cat << EOF > .env
             RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}"
             PORT=${{ secrets.APP_PORT }}
             NODE_ENV="production"
             EOF
             
+            # Install production dependencies
             npm install --omit=dev --ignore-scripts
             
-            # Use APP_PORT to tell Next.js where to listen
+            # Restart with the specific app port
             pm2 delete portfolio || true
             pm2 start npm --name "portfolio" -- start -- -p ${{ secrets.APP_PORT }}
             pm2 save
@@ -70,6 +71,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sleep 10
+            # Check the website port (3002)
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ secrets.APP_PORT }} || echo "000")
             
             if [ "$STATUS" = "200" ] || [ "$STATUS" = "307" ] || [ "$STATUS" = "302" ]; then
