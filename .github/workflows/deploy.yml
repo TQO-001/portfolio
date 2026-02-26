@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: 📋 Checkout Code
         uses: actions/checkout@v4
@@ -29,34 +30,32 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: "laughtale.co.za"
-          REMOTE_USER: "laughtale"
+          REMOTE_HOST: laughtale.co.za
+          REMOTE_USER: laughtale
           REMOTE_PORT: ${{ secrets.PORT }}
-          TARGET: "/var/www/portfolio"
-          SOURCE: "./"
-          # THE FIX: -e 'ssh -p ${{ secrets.PORT }}' forces rsync to use port 2222
-          ARGS: "-rlgoDzvc -i --delete -e 'ssh -p ${{ secrets.PORT }}' --exclude='.git' --exclude='node_modules' --exclude='src'"
+          TARGET: /var/www/portfolio
+          SOURCE: ./
+          ARGS: "-rlgoDzvc --delete --exclude='.git' --exclude='node_modules' --exclude='src'"
 
       - name: 🚀 Production Launch & Restart
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: "laughtale.co.za"
-          username: "laughtale"
+          host: laughtale.co.za
+          username: laughtale
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/portfolio
-            
-            # Use APP_PORT (3002) for the .env
+
+            # Write production environment file
             cat << EOF > .env
             RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}"
             PORT=${{ secrets.APP_PORT }}
-            NODE_ENV="production"
+            NODE_ENV=production
             EOF
-            
+
             npm install --omit=dev --ignore-scripts
-            
-            # Restart with the specific app port
+
             pm2 delete portfolio || true
             pm2 start npm --name "portfolio" -- start -- -p ${{ secrets.APP_PORT }}
             pm2 save
@@ -64,15 +63,14 @@ jobs:
       - name: ✅ Health Check
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: "laughtale.co.za"
-          username: "laughtale"
+          host: laughtale.co.za
+          username: laughtale
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
             sleep 10
-            # Check the internal app port (3002)
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ secrets.APP_PORT }} || echo "000")
-            
+
             if [ "$STATUS" = "200" ] || [ "$STATUS" = "307" ] || [ "$STATUS" = "302" ]; then
               echo "✅ Portfolio is LIVE on port ${{ secrets.APP_PORT }} (HTTP $STATUS)"
             else
