@@ -28,13 +28,14 @@ jobs:
       - name: 🚚 Sync Files to VPS
         uses: easingthemes/ssh-deploy@main
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          remote-host: "laughtale.co.za"
-          remote-user: "laughtale"
-          remote-port: ${{ secrets.PORT }} # This is your 2222
-          target: "/var/www/portfolio"
-          source: "./"
-          args: "-rlgoDzvc -i --delete --exclude='.git' --exclude='node_modules' --exclude='src'"
+          # These MUST be uppercase for this specific action
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: "laughtale.co.za"
+          REMOTE_USER: "laughtale"
+          REMOTE_PORT: ${{ secrets.PORT }}
+          TARGET: "/var/www/portfolio"
+          SOURCE: "./"
+          ARGS: "-rlgoDzvc -i --delete --exclude='.git' --exclude='node_modules' --exclude='src'"
 
       - name: 🚀 Production Launch & Restart
         uses: appleboy/ssh-action@v1.2.0
@@ -42,7 +43,7 @@ jobs:
           host: "laughtale.co.za"
           username: "laughtale"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.PORT }} # This is your 2222
+          port: ${{ secrets.PORT }}
           script: |
             cd /var/www/portfolio
             
@@ -69,7 +70,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sleep 10
-            # Check the internal app port
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ secrets.APP_PORT }} || echo "000")
             
             if [ "$STATUS" = "200" ] || [ "$STATUS" = "307" ] || [ "$STATUS" = "302" ]; then
