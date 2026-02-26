@@ -24,9 +24,9 @@ export async function POST(req: Request) {
 
     const response = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
-      to: "thulanilanga001@gmail.com", // your receiving email
+      to: "thulanilanga001@gmail.com",
       subject: subject || `New message from ${name}`,
-      reply_to: email,
+      replyTo: email, // ✅ FIXED
       html: `
         <div style="font-family: monospace;">
           <h2>New Contact Submission</h2>
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true }, { status: 200 });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Unexpected server error." },
       { status: 500 }
