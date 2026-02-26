@@ -34,7 +34,7 @@ jobs:
           REMOTE_PORT: ${{ secrets.PORT }}
           TARGET: "/var/www/portfolio"
           SOURCE: "./"
-          # -e 'ssh -p ...' forces rsync to use your custom SSH port 2222
+          # THE FIX: -e 'ssh -p ${{ secrets.PORT }}' forces rsync to use port 2222
           ARGS: "-rlgoDzvc -i --delete -e 'ssh -p ${{ secrets.PORT }}' --exclude='.git' --exclude='node_modules' --exclude='src'"
 
       - name: 🚀 Production Launch & Restart
@@ -54,7 +54,6 @@ jobs:
             NODE_ENV="production"
             EOF
             
-            # Install production dependencies
             npm install --omit=dev --ignore-scripts
             
             # Restart with the specific app port
@@ -71,7 +70,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sleep 10
-            # Check the website port (3002)
+            # Check the internal app port (3002)
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ secrets.APP_PORT }} || echo "000")
             
             if [ "$STATUS" = "200" ] || [ "$STATUS" = "307" ] || [ "$STATUS" = "302" ]; then
